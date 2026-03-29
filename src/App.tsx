@@ -2,12 +2,56 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 const projects = [
-  { id: 1, title: 'Mountain Expedition', image: '/m-exp-1.jpg', landscape: true, details: ['/m-exp-2.jpg', '/m-exp-3.jpg', '/m-exp-4.jpg', '/m-exp-5.jpg'] },
-  { id: 2, title: 'Winter Ascent', image: '/project5.png', landscape: false, details: ['/project1.jpg', '/project3.jpg', '/hero.jpg', '/project4.jpg', '/project2.jpg'] },
-  { id: 3, title: 'Wildlife Focus', image: '/project2.jpg', landscape: false, details: ['/project3.jpg', '/hero.jpg', '/project4.jpg', '/project1.jpg', '/project5.png'] },
-  { id: 4, title: 'Macro Nature', image: '/project3.jpg', landscape: true, details: ['/project2.jpg', '/project4.jpg', '/project1.jpg', '/project5.png', '/hero.jpg'] },
-  { id: 5, title: 'Climbing Detail', image: '/project4.jpg', landscape: false, details: ['/project5.png', '/project1.jpg', '/hero.jpg', '/project2.jpg', '/project3.jpg'] },
-  { id: 6, title: 'River Crossing', image: '/hero.jpg', landscape: false, details: ['/project1.jpg', '/project2.jpg', '/project3.jpg', '/project4.jpg', '/project5.png'] },
+  { id: 1, title: 'Ľadolezenie', image: '/ladolezenie/1.jpg', landscape: true, blocks: [
+    { type: 'single', size: 'sz-65', src: '/ladolezenie/1.jpg' },
+    { type: 'single', size: 'sz-85', src: '/ladolezenie/2.jpg' },
+    { type: 'split', src1: '/ladolezenie/3.jpg', src2: '/ladolezenie/4.jpg' },
+    { type: 'single', size: 'sz-85', src: '/ladolezenie/5.jpg' },
+    { type: 'split', src1: '/ladolezenie/6.jpg', src2: '/ladolezenie/7.jpg' },
+    { type: 'single', size: 'sz-65', src: '/ladolezenie/8.jpg' },
+    { type: 'single', size: 'sz-65', src: '/ladolezenie/9.jpg' }
+  ] },
+  { id: 2, title: 'Umelecká výstava', image: '/a_v/1.jpg', landscape: false, blocks: [
+    { type: 'single', size: 'sz-85', src: '/a_v/1.jpg' },
+    { type: 'single', size: 'sz-65', src: '/a_v/2.jpg' },
+    { type: 'single', size: 'sz-85', src: '/a_v/3.jpg' },
+    { type: 'split', src1: '/a_v/4.jpg', src2: '/a_v/5.jpg' },
+    { type: 'single', size: 'sz-85', src: '/a_v/6.jpg' },
+    { type: 'single', size: 'sz-65', src: '/a_v/7.jpg' },
+    { type: 'single', size: 'sz-85', src: '/a_v/8.jpg' },
+    { type: 'single', size: 'sz-65', src: '/a_v/9.jpg' },
+    { type: 'single', size: 'sz-85', src: '/a_v/10.jpg' }
+  ] },
+  { id: 3, title: 'Tatry', image: '/tatry/1.jpg', landscape: false, blocks: [
+    { type: 'single', size: 'sz-85', src: '/tatry/1.jpg' },
+    { type: 'single', size: 'sz-75', src: '/tatry/2.jpg' },
+    { type: 'single', size: 'sz-85', src: '/tatry/3.jpg' },
+    { type: 'split', src1: '/tatry/4.jpg', src2: '/tatry/5.jpg' },
+    { type: 'split', src1: '/tatry/6.jpg', src2: '/tatry/7.jpg' },
+    { type: 'single', size: 'sz-85', src: '/tatry/8.jpg' }
+  ] },
+  { id: 4, title: 'Makro príroda', image: '/macro_priroda/1.jpg', landscape: true, blocks: [
+    { type: 'single', size: 'sz-85', src: '/macro_priroda/1.jpg' },
+    { type: 'single', size: 'sz-85', src: '/macro_priroda/2.jpg' },
+    { type: 'single', size: 'sz-85', src: '/macro_priroda/3.jpg' },
+    { type: 'single', size: 'sz-85', src: '/macro_priroda/4.jpg' },
+    { type: 'single', size: 'sz-85', src: '/macro_priroda/5.jpg' }
+  ] },
+  { id: 5, title: 'Minerály na Spiši', image: '/mns/1.jpg', landscape: true, blocks: [
+    { type: 'single', size: 'sz-85', src: '/mns/1.jpg' },
+    { type: 'single', size: 'sz-75', src: '/mns/2.jpg' },
+    { type: 'single', size: 'sz-85', src: '/mns/3.jpg' },
+    { type: 'single', size: 'sz-75', src: '/mns/4.jpg' },
+    { type: 'single', size: 'sz-85', src: '/mns/5.jpg' },
+    { type: 'single', size: 'sz-75', src: '/mns/6.jpg' },
+    { type: 'single', size: 'sz-85', src: '/mns/7.jpg' }
+  ] },
+  { id: 6, title: 'River Crossing', image: '/hero.jpg', landscape: false, blocks: [
+    { type: 'single', size: 'boxed', src: '/hero.jpg' },
+    { type: 'single', size: 'full', src: '/project1.jpg' },
+    { type: 'split', src1: '/project2.jpg', src2: '/project3.jpg' },
+    { type: 'single', size: 'full', src: '/project4.jpg' }
+  ] }
 ];
 
 function ProjectDetail({ project, onClose }: { project: any, onClose: () => void }) {
@@ -25,28 +69,23 @@ function ProjectDetail({ project, onClose }: { project: any, onClose: () => void
         <button className="close-btn" onClick={onClose}>Close</button>
       </header>
       <div className="project-detail-content">
-        <div className="pd-row boxed">
-          <img src={project.image} alt={project.title} />
-        </div>
-        
-        {project.details[0] && (
-          <div className="pd-row full">
-            <img src={project.details[0]} alt="Detail 1" />
-          </div>
-        )}
-
-        {project.details[1] && project.details[2] && (
-          <div className="pd-row split">
-            <img src={project.details[1]} alt="Detail 2" />
-            <img src={project.details[2]} alt="Detail 3" />
-          </div>
-        )}
-
-        {project.details[3] && (
-          <div className="pd-row full">
-            <img src={project.details[3]} alt="Detail 4" />
-          </div>
-        )}
+        {project.blocks.map((block: any, idx: number) => {
+          if (block.type === 'single') {
+            return (
+              <div key={idx} className={`pd-row ${block.size}`}>
+                <img src={block.src} alt={`${project.title} block ${idx}`} />
+              </div>
+            );
+          } else if (block.type === 'split') {
+            return (
+              <div key={idx} className="pd-row split">
+                <img src={block.src1} alt={`${project.title} block ${idx} left`} />
+                <img src={block.src2} alt={`${project.title} block ${idx} right`} />
+              </div>
+            );
+          }
+          return null;
+        })}
       </div>
     </div>
   );
@@ -66,28 +105,35 @@ function AboutDetail({ onClose }: { onClose: () => void }) {
         <button className="close-btn" onClick={onClose}>Close</button>
       </header>
       <div className="project-detail-content">
-        <div className="pd-row boxed about-text-box">
-          <h2 className="about-heading">
-            Volám sa Michal Petrík a fotografii sa venujem viac ako 7 rokov.<br /><br />
-            Zameriavam sa na zachytávanie momentov zo spoločenských podujatí, prírody aj makro sveta.<br /><br />
-            Špecializujem sa tiež na fotografiu minerálov a venujem sa aj digitálnej tvorbe.
-          </h2>
-          
-          <div className="about-contact-block">
+        <div className="about-grid">
+          {/* Box 1: First Photo */}
+          <div className="about-grid-item">
+            <img src="/O_MNE/about-1.jpg" alt="Michal Petrík 1" className="about-photo" />
+          </div>
+
+          {/* Box 2: Text */}
+          <div className="about-grid-item about-text-box">
+            <h2 className="about-heading">
+              Volám sa Michal Petrík a fotografii sa venujem viac ako 7 rokov.<br /><br />
+              Zameriavam sa na zachytávanie momentov zo spoločenských podujatí, prírody aj makro sveta.<br /><br />
+              Špecializujem sa tiež na fotografiu minerálov a venujem sa aj digitálnej tvorbe.
+            </h2>
+          </div>
+
+          {/* Box 3: Contact */}
+          <div className="about-grid-item about-contact-block">
             <span className="footer-label">Kontakt</span>
             <div className="footer-links-col">
               <a href="mailto:michalpetrik93@gmail.com" className="footer-link">michalpetrik93@gmail.com</a>
               <a href="tel:+421918019968" className="footer-link">+421 918 019 968</a>
+              <a href="https://www.instagram.com/michalpetrik_/" target="_blank" rel="noopener noreferrer" className="footer-link">Instagram</a>
             </div>
           </div>
-        </div>
 
-        <div className="pd-row boxed">
-          <img src="/about-1.jpg" alt="Michal Petrík 1" />
-        </div>
-        
-        <div className="pd-row full">
-          <img src="/about-2.jpg" alt="Michal Petrík 2" />
+          {/* Box 4: Second Photo */}
+          <div className="about-grid-item">
+            <img src="/O_MNE/about-2.jpg" alt="Michal Petrík 2" className="about-photo" />
+          </div>
         </div>
       </div>
     </div>
