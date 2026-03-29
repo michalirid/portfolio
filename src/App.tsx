@@ -54,6 +54,12 @@ const projects = [
   ] }
 ];
 
+const getImgUrl = (path: string) => {
+  if (!path) return '';
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${import.meta.env.BASE_URL}${cleanPath}`;
+};
+
 function ProjectDetail({ project, onClose }: { project: any, onClose: () => void }) {
   useEffect(() => {
     // Lock body scroll when overlay is open
@@ -73,14 +79,14 @@ function ProjectDetail({ project, onClose }: { project: any, onClose: () => void
           if (block.type === 'single') {
             return (
               <div key={idx} className={`pd-row ${block.size}`}>
-                <img src={block.src} alt={`${project.title} block ${idx}`} />
+                <img src={getImgUrl(block.src)} alt={`${project.title} block ${idx}`} />
               </div>
             );
           } else if (block.type === 'split') {
             return (
               <div key={idx} className="pd-row split">
-                <img src={block.src1} alt={`${project.title} block ${idx} left`} />
-                <img src={block.src2} alt={`${project.title} block ${idx} right`} />
+                <img src={getImgUrl(block.src1)} alt={`${project.title} block ${idx} left`} />
+                <img src={getImgUrl(block.src2)} alt={`${project.title} block ${idx} right`} />
               </div>
             );
           }
@@ -108,7 +114,7 @@ function AboutDetail({ onClose }: { onClose: () => void }) {
         <div className="about-grid">
           {/* Box 1: First Photo */}
           <div className="about-grid-item">
-            <img src="/O_MNE/about-1.jpg" alt="Michal Petrík 1" className="about-photo" />
+            <img src={getImgUrl('/O_MNE/about-1.jpg')} alt="Michal Petrík 1" className="about-photo" />
           </div>
 
           {/* Box 2: Text */}
@@ -132,7 +138,7 @@ function AboutDetail({ onClose }: { onClose: () => void }) {
 
           {/* Box 4: Second Photo */}
           <div className="about-grid-item">
-            <img src="/O_MNE/about-2.jpg" alt="Michal Petrík 2" className="about-photo" />
+            <img src={getImgUrl('/O_MNE/about-2.jpg')} alt="Michal Petrík 2" className="about-photo" />
           </div>
         </div>
       </div>
@@ -178,7 +184,7 @@ function App() {
       <main id="home">
         {/* Hero Section */}
         <section className="hero">
-          <img src="/hero-new.jpg" alt="Hero Background" className="hero-image" />
+          <img src={getImgUrl('/hero-new.jpg')} alt="Hero Background" className="hero-image" />
           <div className="hero-overlay"></div>
           <div className="hero-content">
             <h1 className="hero-title">Michal Petrík</h1>
@@ -201,7 +207,7 @@ function App() {
               className={`project-card scroll-observe delay-${(index % 3) + 1} ${project.landscape ? 'landscape' : ''}`}
               onClick={() => setSelectedProject(project)}
             >
-              <img src={project.image} alt={project.title} className="project-image" />
+              <img src={getImgUrl(project.image)} alt={project.title} className="project-image" />
               <div className="project-overlay">
                 <h3 className="project-title">{project.title}</h3>
               </div>
